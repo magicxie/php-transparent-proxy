@@ -9,10 +9,10 @@
 /--------------------------------------------------------------*/
 
 // Destination URL: Where this proxy leads to.
-$destinationURL = 'http://www.otherdomain.com/backend.php';
+$destinationURL = 'pmir.3g.qq.com';
 
 // The only domain from which requests are authorized.
-$RequestDomain = 'example.com';
+$RequestDomain = 'kingroot.net';
 
 // That's it for configuration!
 
@@ -33,13 +33,13 @@ if(!function_exists('apache_request_headers')) {
 $ip = '';
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) { 
     $ip = $_SERVER['HTTP_CLIENT_IP'];
-    //echo "HTTP_CLIENT_IP: ".$ip;
+    echo "HTTP_CLIENT_IP: ".$ip;
 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    //echo "HTTP_X_FORWARDED_FOR: ".$ip;
+    echo "HTTP_X_FORWARDED_FOR: ".$ip;
 } else {
     $ip = $_SERVER['REMOTE_ADDR'];
-    //echo "REMOTE_ADDR: ".$ip;
+    echo "REMOTE_ADDR: ".$ip;
 }
 
 $req_parts = parse_url($_SERVER['HTTP_REFERER']);
@@ -133,7 +133,8 @@ if($req_parts["host"] == $RequestDomain) {
         fputs($fp, "Host: $host\r\n");
         
         fputs($fp, "X-Forwarded-For: $ip\r\n");
-        fputs($fp, "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n"); 
+        fputs($fp, "X-Forwarded-For-Pound: $ip\r\n");
+        fputs($fp, "Accept-Charset: utf-8;q=0.7,*;q=0.7\r\n");
         
            $requestHeaders = apache_request_headers();
         while ((list($header, $value) = each($requestHeaders))) {
